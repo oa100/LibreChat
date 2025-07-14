@@ -1,0 +1,25 @@
+services:
+  # Use LibreChat config file and external MongoDB
+  api:
+    depends_on:
+      - rag_api
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: "mongodb+srv://yemi:623F3emRA6QglqI5@cluster0.tll0mza.mongodb.net/LibreChat?retryWrites=true&w=majority&appName=Cluster0"
+    volumes:
+    - type: bind
+      source: ./librechat.yaml
+      target: /app/librechat.yaml
+
+  # Disable the local MongoDB container by replacing its command
+  mongodb:
+    image: busybox
+    restart: "no"
+    command: "true"
+
+  # Use RAG API image with local embeddings support
+  rag_api:
+   image: ghcr.io/danny-avila/librechat-rag-api-dev:latest
+   extra_hosts:
+     - "host.docker.internal:host-gateway"
