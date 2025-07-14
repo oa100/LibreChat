@@ -5,8 +5,6 @@ services:
       - rag_api
     env_file:
       - .env
-    environment:
-      MONGO_URI: "mongodb+srv://yemi:623F3emRA6QglqI5@cluster0.tll0mza.mongodb.net/LibreChat?retryWrites=true&w=majority&appName=Cluster0"
     volumes:
     - type: bind
       source: ./librechat.yaml

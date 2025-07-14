@@ -1,0 +1,24 @@
+repos:
+  # Built-in pre-commit hooks for common security issues
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+      - id: check-json
+
+  # Local security checks
+  - repo: local
+    hooks:
+      - id: env-file-check
+        name: Check for .env files being committed
+        entry: bash
+        args: ['-c', 'if git diff --cached --name-only | grep -E "^\.env$"; then echo "ERROR: .env file is being committed! Remove it from staging." && exit 1; fi']
+        language: system
+        pass_filenames: false
+        always_run: true
